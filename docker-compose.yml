@@ -1,0 +1,135 @@
+version: "3.9"
+
+services:
+  client:
+    container_name: client
+    build: ./client
+    env_file:
+      - ./client/.env
+    ports:
+      - "3000:3000"
+
+  db-postgresql:
+    container_name: db-postgresql
+
+    ports:
+      - "54321:5432"
+
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=db-postgresql
+
+    volumes:
+      - ./db:/app/src/db
+
+    image: postgres:14.3-alpine
+
+  redis:
+    image: redis
+    restart: always
+    container_name: redis
+
+    ports:
+      - "6379:6379"
+
+  smtp-server:
+    image: mailhog/mailhog
+    container_name: smtp-server
+
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  worker:
+    build: .
+    container_name: worker
+
+    depends_on:
+      - smtp-server
+      - db-postgresql
+
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=db-postgresql
+      - POSTGRES_HOST=db-postgresql
+
+    env_file:
+      - ./server/.env
+
+    command: ["celery", "--workdir=./src", "-A", "src", "worker"]
+
+  server:
+    build: ./server
+    container_name: server
+    depends_on:
+      - smtp-server
+      - db-postgresql
+
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=db-postgresql
+      - POSTGRES_HOST=db-postgresql
+      - EMAIL_HOST=smtp-server
+
+    env_file:
+      - ./server/.env
+
+    command:
+      bash -c "python ./src/manage.py migrate && python ./src/manage.py
+      runserver 0.0.0.0:8000"
+
+    ports:
+      - "8000:8000"
+
+  dashboard:
+    container_name: dashboard
+    build: .
+    command: ["celery", "--workdir=./src", "-A", "src", "flower", "--port=5555"]
+    ports:
+      - 5555:5555
+
+    environment:
+      - DEBUG=1
+
+    depends_on:
+      - server
+      - redis
+      - worker
+  celery-beats:
+    restart: always
+    build: .
+    volumes:
+      - ./db:/app/src/db
+
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=db-postgresql
+      - POSTGRES_HOST=db-postgresql
+
+    env_file:
+      - ./server/.env
+
+    depends_on:
+      - server
+      - redis
+      - worker
+
+    command:
+      [
+        "celery",
+        "--workdir=./src",
+        "-A",
+        "src",
+        "beat",
+        "-l",
+        "INFO",
+        "--scheduler",
+        "django_celery_beat.schedulers:DatabaseScheduler",
+      ]
+
+volumes:
+  db-postgresql:
