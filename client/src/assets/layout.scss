@@ -1,0 +1,38 @@
+.container {
+  margin: 0 auto;
+
+  @media screen and (min-width: 768px) {
+    max-width: 750px;
+  }
+
+  @media screen and (min-width: 992px) {
+    max-width: 970px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    max-width: 1280px;
+    padding: 0 step(4);
+  }
+}
+
+.main {
+  @media screen and (min-width: 992px) {
+    padding-top: step(6);
+  }
+
+  &__content {
+    &-left_column {
+      display: none;
+    }
+
+    @media screen and (min-width: 992px) {
+      display: grid;
+      grid-template-columns: 2fr 5fr;
+      gap: step(6);
+
+      .main__content-left_column {
+        display: block;
+      }
+    }
+  }
+}

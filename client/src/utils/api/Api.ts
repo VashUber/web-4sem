@@ -38,17 +38,15 @@ abstract class Api {
   static async fetchUserArticle(id: number, page: number): Promise<Pagination<IArticle[]>> {
     if (useApi) {
       return await this.callFetch<Pagination<IArticle[]>>(`/accounts/${id}/article?page=${page}`)
-    }
-    else {
+    } else {
       return fakerBlogList()
     }
   }
   static async fetchUserArticleCount(id: number): Promise<number> {
     if (useApi) {
       return await this.callFetch<number>(`/accounts/${id}/counts`)
-    }
-    else {
-      return faker.datatype.number({max: 100})
+    } else {
+      return faker.datatype.number({ max: 100 })
     }
   }
 
@@ -75,8 +73,7 @@ abstract class Api {
         author: userId,
         article: articleId
       })
-    }
-    else {
+    } else {
       return fakerComment()
     }
   }
@@ -84,7 +81,6 @@ abstract class Api {
     if (useApi) {
       return await this.callFetch<Pagination<IArticle[]>>(`/articles/?page=${page}`)
     } else {
-
       return fakerBlogList()
     }
   }
@@ -92,8 +88,7 @@ abstract class Api {
   static async editArticle(id: number, form: any): Promise<IArticle> {
     if (useApi) {
       return this.callFetch<IArticle>(`/articles/${id}/`, AxiosMethodsEnum.PUT, form)
-    }
-    else {
+    } else {
       return fakerBlogCard()
     }
   }
@@ -134,7 +129,7 @@ abstract class Api {
   }
 
   static async createArticle(data: any): Promise<IArticleCreateResponse> {
-    if (!useApi) {
+    if (useApi) {
       return this.callFetch<any>('/articles/', AxiosMethodsEnum.POST, data)
     } else {
       return fakerBlogCard()

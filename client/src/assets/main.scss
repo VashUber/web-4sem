@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
+@import './layout.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Jost', Arial;
+}
+
+@supports (padding-top: env(safe-area-inset-top)) {
+  body {
+    --safe-area-inset-top: env(safe-area-inset-top);
+    height: calc(100% + var(--safe-area-inset-top));
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  background-color: $gray-100;
+  padding-bottom: step(6);
+}
+
+.header {
+  background-color: $purple-900;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 60px;
+
+    @media screen and (max-width: 768px) {
+      padding: 0 step(5);
+    }
+  }
+}
+
+*.p-focus {
+  box-shadow: none !important;
+  border-color: none !important;
+}
+
+.main-left-column-card {
+  background: white;
+  padding: step(5);
+
+  @media screen and (min-width: 1200px) {
+    padding: step(9);
+  }
+}
+
+.main-right-column-card {
+  padding: step(3) step(5);
+
+  @media screen and (min-width: 1200px) {
+    padding: step(3) step(10);
+  }
+  background: white;
+}
+
+.profile-left-column-card {
+  padding: step(3) step(6);
+  background: white;
+}
+
+.p-button {
+  padding: step(2) step(4);
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 4;
+  justify-content: center;
+  align-items: center;
+  box-shadow: none !important;
+}
+
+img {
+  background-color: $gray-500;
+}
+
+.p-inputtext {
+  padding: step(2) step(3);
+  border-radius: 0;
+  border: 1px solid black;
+}

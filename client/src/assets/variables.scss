@@ -1,0 +1,35 @@
+@use 'sass:math';
+
+:root {
+  --purple-900: #7a77ff;
+  --gray-100: #f2f2f2;
+  --gray-500: #888888;
+}
+
+// цвета
+$purple-900: var(--purple-900);
+$gray-100: var(--gray-100);
+$gray-500: var(--gray-500);
+
+// радиусы
+$radius-1: 10px;
+$radius-2: 20px;
+
+// отступы
+$default-step: 4px;
+
+@function step($step) {
+  $result: $default-step * $step;
+
+  @return $result;
+}
+
+// штифты
+@mixin textWithMobile($size) {
+  font-size: $size;
+  line-height: 140%;
+
+  @media screen and (max-width: 768px) {
+    font-size: math.div($size, 1.25);
+  }
+}
