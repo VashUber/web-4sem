@@ -14,9 +14,40 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from api.views import (ArticleViewSet, CountUserArticleView, ReadArticlesView,
+                       TopArticlesView, UserArticleView)
+from comments.views import CommentViewSet
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path, re_path
+from django.views.generic import TemplateView
+from rest_framework.routers import DefaultRouter
+from rest_framework.schemas import get_schema_view
+from rest_framework_simplejwt.views import TokenRefreshView
+from users.views import (CurrentUserView, EmailVerifyView, LoginView,
+                         LogoutView, RegistrationView, UserView)
+
+router = DefaultRouter()
+router.register(r"articles", ArticleViewSet, basename="articles")
+router.register(r"comments", CommentViewSet, basename="comments")
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+    path("auth", include("rest_framework.urls")),
+    path("admin/", admin.site.urls),
+    path("articles/top", TopArticlesView.as_view({"get": "list"}), name="top-articles"),
+    path("articles/read", ReadArticlesView.as_view({"get": "list"}), name="read-articles"),
+    path("email-verify", EmailVerifyView.as_view(), name="email-verify"),
+    path("accounts/<int:pk>/article", UserArticleView.as_view({"get": "list"}), name="user-article"),
+    path("accounts/<int:pk>", UserView.as_view(), name="user"),
+    path("accounts/<int:pk>/count", CountUserArticleView.as_view({"get": "list"}), name="user"),
+    path("accounts/current", CurrentUserView.as_view(), name="current"),
+    path("accounts/register", RegistrationView.as_view(), name="register"),
+    path("accounts/login", LoginView.as_view(), name="login"),
+    path("accounts/logout", LogoutView.as_view(), name="logout"),
+    path("accounts/refresh", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api_schema/", get_schema_view(title="API Schema", description="Guide for the REST API"), name="api_schema"),
+    path("docs/", TemplateView.as_view(template_name="docs.html", extra_context={"schema_url": "api_schema"}), name="swagger-ui"),
+    *router.urls,
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

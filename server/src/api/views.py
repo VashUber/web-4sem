@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Article
 from .pagination import CustomPagination
@@ -20,7 +21,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all().order_by("-id")
     serializer_class = ArticleSerializer
     pagination_class = StandardResultsSetPagination
-    authentication_classes = ()
+    authentication_classes = (JWTAuthentication, )
     permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly, )
 
     def retrieve(self, request, pk):
@@ -54,7 +55,7 @@ class UserArticleView(mixins.ListModelMixin, GenericViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-    
+
 class TopArticlesView(mixins.ListModelMixin, GenericViewSet):
     authentication_classes = ()
     queryset = Article.objects.all()
