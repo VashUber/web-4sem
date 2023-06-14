@@ -9,5 +9,5 @@ export default (): IUser => ({
   last_login: '',
   email: faker.internet.email(),
   id: faker.datatype.number(),
-  avatar: faker.image.avatar(),
+  avatar: faker.image.avatar()
 })

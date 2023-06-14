@@ -25,8 +25,7 @@ const form = ref({
 const onClick = async () => {
   if (isCreated) {
     await onSave()
-  }
-  else {
+  } else {
     await onEdit()
   }
 }
@@ -43,10 +42,9 @@ const onSave = async () => {
     formData.append('img', form.value.img)
   }
 
-  await Api.createArticle(formData)
-    .then((res) => {
-      $router.push(`/edit/${res.id}`)
-    })
+  await Api.createArticle(formData).then((res) => {
+    $router.push(`/edit/${res.id}`)
+  })
 }
 
 const onEdit = async () => {
@@ -60,41 +58,50 @@ const onEdit = async () => {
     formData.append('img', form.value.img)
   }
 
-  await Api.editArticle(+$route.params.id, formData)
-    .then((res) => {
-      form.value = {
-        author: String(user.value?.id),
-        content: res.content,
-        content_text: res.content_text,
-        img: undefined,
-        tags: [],
-        title: res.title,
-      }
+  await Api.editArticle(+$route.params.id, formData).then((res) => {
+    form.value = {
+      author: String(user.value?.id),
+      content: res.content,
+      content_text: res.content_text,
+      img: undefined,
+      tags: [],
+      title: res.title
+    }
 
-      toast.add({ severity: 'success', summary: 'Успешно', detail: 'Запись изменена', group: 'br', life: 3000 })
+    toast.add({
+      severity: 'success',
+      summary: 'Успешно',
+      detail: 'Запись изменена',
+      group: 'br',
+      life: 3000
     })
+  })
 }
 
 onMounted(async () => {
   if (!isCreated) {
-    await Api.fetchCurrentArticle(+$route.params.id)
-      .then((res) => {
-        form.value = {
-          author: String(user.value?.id),
-          title: res.title,
-          tags: [],
-          content: res.content,
-          content_text: res.content_text,
-          img: undefined,
-        }
-      })
+    await Api.fetchCurrentArticle(+$route.params.id).then((res) => {
+      form.value = {
+        author: String(user.value?.id),
+        title: res.title,
+        tags: [],
+        content: res.content,
+        content_text: res.content_text,
+        img: undefined
+      }
+    })
   }
 })
 </script>
 
 <template>
   <div>
-    <create-form-info v-model:title="form.title" v-model:tags="form.tags" v-model:content-text="form.content_text" v-model:file="form.img"/>
+    <create-form-info
+      v-model:title="form.title"
+      v-model:tags="form.tags"
+      v-model:content-text="form.content_text"
+      v-model:file="form.img"
+    />
     <create-form-content v-model="form.content" />
     <div class="CreateArticleView__save profile-left-column-card">
       <p-button @click="onClick"> Сохранить </p-button>

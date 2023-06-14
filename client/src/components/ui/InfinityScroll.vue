@@ -59,7 +59,12 @@ const emitEvent = () => {
 </script>
 
 <template>
-  <div v-if="props.active" ref="infiniteScrollObserver" class="infiniteScrollObserver" :style="getStyle"></div>
+  <div
+    v-if="props.active"
+    ref="infiniteScrollObserver"
+    class="infiniteScrollObserver"
+    :style="getStyle"
+  ></div>
 </template>
 
 <style scoped>

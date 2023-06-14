@@ -23,17 +23,16 @@ const loadMore = async () => {
     await Api.fetchArticles(blogPage.value).then((res) => {
       if (blogPage.value === 1) {
         blogs.value = res.data
-      }
-      else {
+      } else {
         blogs.value.push(...res.data)
       }
-      
+
       isLoadMore.value = res.count > blogPage.value * res.per_page
-      blogPage.value += 1 
+      blogPage.value += 1
     })
 
     loaded.value = false
-  } 
+  }
 }
 </script>
 
@@ -49,9 +48,5 @@ const loadMore = async () => {
     :tags="[]"
     @go-read="onGoRead"
   />
-  <InfinityScroll
-    :active="isLoadMore"
-    :auto-load="false"
-    @process="loadMore"
-  />
+  <InfinityScroll :active="isLoadMore" :auto-load="false" @process="loadMore" />
 </template>

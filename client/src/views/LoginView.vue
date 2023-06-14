@@ -2,7 +2,6 @@
 import LoginCard from '@/components/parts/login/LoginCard.vue'
 import AuthSwitch from '@/components/ui/AuthSwitch.vue'
 import { user } from '@/composable/fetchUser'
-
 </script>
 
 <template>

@@ -7,7 +7,7 @@ import ColumnCustomScroll from '@/components/ui/ColumnCustomScroll.vue'
 
 <template>
   <column-custom-scroll>
-    <partition-list v-if="false"/>
+    <partition-list v-if="false" />
     <top-blogs />
     <reading-blogs-list />
   </column-custom-scroll>

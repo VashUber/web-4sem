@@ -16,6 +16,6 @@ const props = defineProps({
 
 <template>
   <column-custom-scroll>
-    <profile-stats :created-ad="props.createdAd" :count-articles="props.countArticles"/>
+    <profile-stats :created-ad="props.createdAd" :count-articles="props.countArticles" />
   </column-custom-scroll>
 </template>

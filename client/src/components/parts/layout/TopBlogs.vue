@@ -16,9 +16,14 @@ onMounted(async () => {
   <div class="TopBlogs main-left-column-card">
     <div class="TopBlogs__title">Топ блоги</div>
     <div class="TopBlogs__list">
-      <router-link :to="`/article/${blog.id}`" v-for="blog in blogs" :key="blog.id" class="TopBlogs__list-item">
+      <router-link
+        :to="`/article/${blog.id}`"
+        v-for="blog in blogs"
+        :key="blog.id"
+        class="TopBlogs__list-item"
+      >
         <div class="TopBlogs__list-item__img-wrap">
-          <img class="TopBlogs__list-item__img" :src="blog.author_data.avatar"/>
+          <img class="TopBlogs__list-item__img" :src="blog.author_data.avatar" />
         </div>
         <div class="TopBlogs__list-item__title">
           {{ blog.title }}

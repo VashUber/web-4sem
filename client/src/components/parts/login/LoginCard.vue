@@ -11,12 +11,8 @@ const form = ref({
 })
 
 const onLogin = async () => {
-  login(
-    form.value.email,
-    form.value.password,
-  )
+  login(form.value.email, form.value.password)
 }
-
 </script>
 
 <template>

@@ -22,11 +22,10 @@ const $route = useRoute()
 const articleId = +$route.params.id
 
 const onSubmit = async () => {
-  await Api.createComments(text.value, user.value!.id, articleId)
-    .then((res) => {
-      emits('addComment', res)
-      text.value = ''
-    })
+  await Api.createComments(text.value, user.value!.id, articleId).then((res) => {
+    emits('addComment', res)
+    text.value = ''
+  })
 }
 </script>
 
@@ -34,11 +33,9 @@ const onSubmit = async () => {
   <div class="ArticleComments main-right-column-card">
     <h3 class="ArticleComments__title">Комментарии</h3>
     <div v-if="user" class="ArticleComments__form-wrap">
-      <h4 class="ArticleComments__form-title">
-        Написать комментарий
-      </h4>
+      <h4 class="ArticleComments__form-title">Написать комментарий</h4>
       <form class="ArticleComments__form" @submit.prevent="onSubmit">
-        <PTextarea v-model="text" rows="4" class="ArticleComments__form-textarea"/>
+        <PTextarea v-model="text" rows="4" class="ArticleComments__form-textarea" />
         <PButton class="ArticleComments__form-button" type="submit">Отправить</PButton>
       </form>
     </div>
@@ -50,9 +47,7 @@ const onSubmit = async () => {
           :comment="comment"
         />
       </template>
-      <template v-else>
-        Нет комментариев
-      </template>
+      <template v-else> Нет комментариев </template>
     </div>
   </div>
 </template>
