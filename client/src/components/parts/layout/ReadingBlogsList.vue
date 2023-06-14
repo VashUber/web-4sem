@@ -15,7 +15,12 @@ onMounted(async () => {
   <div class="BlogsList main-left-column-card">
     <div class="BlogsList__title">ЧИТАЮТ СЕЙЧАС</div>
     <div class="BlogsList__list">
-      <router-link :to="`/article/${blog.id}`" v-for="blog in blogs" :key="blog.id" class="BlogsList__list-item">
+      <router-link
+        :to="`/article/${blog.id}`"
+        v-for="blog in blogs"
+        :key="blog.id"
+        class="BlogsList__list-item"
+      >
         {{ blog.content_text }}
       </router-link>
     </div>

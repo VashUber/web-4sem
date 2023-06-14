@@ -30,10 +30,14 @@ const onAddComments = (comment: IComments) => {
   <div v-if="blog">
     <article-content
       :avatar="blog.author_data.avatar"
-      :name="blog.author_data.username" :title="blog.title" :content="blog.content" :image="blog.img"
-      :author="blog.author" />
+      :name="blog.author_data.username"
+      :title="blog.title"
+      :content="blog.content"
+      :image="blog.img"
+      :author="blog.author"
+    />
   </div>
   <div>
-    <article-comments :comments="comments"  @add-comment="onAddComments"/>
+    <article-comments :comments="comments" @add-comment="onAddComments" />
   </div>
 </template>

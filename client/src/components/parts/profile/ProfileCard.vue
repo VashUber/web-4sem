@@ -13,7 +13,7 @@ const props = defineProps({
 
 <template>
   <div class="ProfileCard profile-left-column-card">
-    <img class="ProfileCard__avatar" :src="props.avatar"/>
+    <img class="ProfileCard__avatar" :src="props.avatar" />
 
     <div class="ProfileCard__info">
       <div class="ProfileCard__info-nick">@{{ props.name }}</div>

@@ -28,12 +28,10 @@ const currentTab = ref('article')
 onMounted(async () => {
   if (isMyProfile.value) {
     userData.value = _.cloneDeep(user.value)
-  }
-  else {
-    await Api.fetchUser(+$route.params.id)
-      .then((res) => {
-        userData.value = res
-      })
+  } else {
+    await Api.fetchUser(+$route.params.id).then((res) => {
+      userData.value = res
+    })
   }
 
   await Api.fetchUserArticleCount
@@ -43,13 +41,12 @@ onMounted(async () => {
 const isLoadMore = ref(false)
 
 const loadMore = async () => {
-  await Api.fetchUserArticle(+$route.params.id, articlesPage.value)
-    .then((res) => {
-      isLoadMore.value = res.count > articlesPage.value * res.per_page
-      count.value = res.count
-      articlesPage.value += 1
-      articles.value.push(...res.data)
-    })
+  await Api.fetchUserArticle(+$route.params.id, articlesPage.value).then((res) => {
+    isLoadMore.value = res.count > articlesPage.value * res.per_page
+    count.value = res.count
+    articlesPage.value += 1
+    articles.value.push(...res.data)
+  })
 }
 
 const redirectOnCreate = () => {
@@ -62,11 +59,20 @@ const redirectOnCreate = () => {
     <div class="main__content ProfileView__content">
       <div class="ProfileView__content-right">
         <profile-card :name="userData.name" :avatar="userData.avatar" />
-        <profile-stats class="ProfileView__stats" :count-articles="'0'" :created-ad="userData.created_ad" />
+        <profile-stats
+          class="ProfileView__stats"
+          :count-articles="'0'"
+          :created-ad="userData.created_ad"
+        />
 
         <profile-tabs v-model="currentTab" @created-article="redirectOnCreate" />
 
-        <profile-article-list v-if="currentTab === 'article'" :is-load-more="isLoadMore" :articles="articles" @process="loadMore" />
+        <profile-article-list
+          v-if="currentTab === 'article'"
+          :is-load-more="isLoadMore"
+          :articles="articles"
+          @process="loadMore"
+        />
       </div>
       <div class="main__content-left_column">
         <profile-right-column :count-articles="count" :created-ad="userData.created_ad" />

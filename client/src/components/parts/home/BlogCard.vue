@@ -28,7 +28,7 @@ const props = defineProps({
   id: {
     type: Number,
     required: true
-  },
+  }
 })
 
 const emits = defineEmits(['goRead'])
@@ -43,7 +43,11 @@ const onClickBlogCard = (): void => {
 <template>
   <div class="BlogCard main-right-column-card" @click="onClickBlogCard">
     <div v-if="props.author" class="BlogCard__author">
-      <author-block :id="props.author.id" :avatar="props.author.avatar" :name="props.author.username" />
+      <author-block
+        :id="props.author.id"
+        :avatar="props.author.avatar"
+        :name="props.author.username"
+      />
     </div>
     <div class="BlogCard__title">
       {{ props.title }}
@@ -54,7 +58,7 @@ const onClickBlogCard = (): void => {
       </div>
     </div>
     <div v-if="props.img" class="BlogCard__img-wrap">
-      <img class="BlogCard__img" :src="props.img"/>
+      <img class="BlogCard__img" :src="props.img" />
     </div>
     <div class="BlogCard__description">
       {{ props.shortDescription }}

@@ -7,13 +7,13 @@ import { computed, ref } from 'vue'
 import type { IFormRegistration } from '@/utils/api/Auth'
 
 export interface IRows {
-  label: string,
-  component: object,
-  props?: object,
-  value: string,
-  slot?: string,
-  memo?: unknown[],
-  class?: string,
+  label: string
+  component: object
+  props?: object
+  value: string
+  slot?: string
+  memo?: unknown[]
+  class?: string
 }
 
 const form = ref({
@@ -24,7 +24,7 @@ const form = ref({
   avatar: undefined,
   username: '',
   surname: '',
-  patronymic: '',
+  patronymic: ''
 } as IFormRegistration)
 
 const currentStep = ref(0)
@@ -36,34 +36,35 @@ const allFormData = [
     {
       component: CustomInput,
       label: 'Имя',
-      value: 'username',
+      value: 'username'
     },
     {
       component: CustomInput,
       label: 'Фамилия',
-      value: 'surname',
+      value: 'surname'
     },
     {
       component: CustomInput,
       label: 'Отчество',
-      value: 'patronymic',
-    },
+      value: 'patronymic'
+    }
   ],
   [
     {
       component: CustomInput,
       label: 'Никнейм',
-      value: 'name',
-    },{
+      value: 'name'
+    },
+    {
       component: CustomInput,
       label: 'E-mail',
-      value: 'email',
+      value: 'email'
     },
     {
       component: CustomInputFile,
       label: 'Аватар',
-      value: 'avatar',
-    },
+      value: 'avatar'
+    }
   ],
   [
     {
@@ -75,7 +76,7 @@ const allFormData = [
       component: CustomInput,
       label: 'Пароль ещё раз',
       value: 'password_confirm'
-    },
+    }
   ]
 ] as IRows[][]
 
@@ -84,21 +85,20 @@ const currentFormRow = computed(() => {
 })
 
 const onSubmit = async () => {
-  await registration(form.value)
-    .catch((error) => {
-      isError.value = true
-      errors.value = error.response.data
+  await registration(form.value).catch((error) => {
+    isError.value = true
+    errors.value = error.response.data
 
-      const errorStep = allFormData.reduce((minIndex, item, index) => {
-        if (minIndex > index && !!item.find(el => errors.value[el.value])) {
-          return index
-        }
+    const errorStep = allFormData.reduce((minIndex, item, index) => {
+      if (minIndex > index && !!item.find((el) => errors.value[el.value])) {
+        return index
+      }
 
-        return minIndex
-      }, allFormData.length)
+      return minIndex
+    }, allFormData.length)
 
-      currentStep.value = errorStep
-    })
+    currentStep.value = errorStep
+  })
 }
 </script>
 
@@ -107,22 +107,41 @@ const onSubmit = async () => {
     <h1 class="RegistrationCard__title">Регистрация</h1>
     <div class="RegistrationCard__error-wrap">
       <div v-for="(error, key) of errors" :key="key" class="RegistrationCard__error">
-        <b>{{ key }}</b>: {{ error[0] }}
+        <b>{{ key }}</b
+        >: {{ error[0] }}
       </div>
     </div>
     <form class="RegistrationCard__form" @submit.prevent="onSubmit">
       <template v-for="(field, index) in currentFormRow" :key="index">
-        <component :is="field.component" :id="field.value" v-model="form[field.value as keyof typeof form]"
-          v-bind="field.props"> {{ field.label }}</component>
+        <component
+          :is="field.component"
+          :id="field.value"
+          v-model="form[field.value as keyof typeof form]"
+          v-bind="field.props"
+        >
+          {{ field.label }}</component
+        >
       </template>
       <div class="RegistrationCard__form-btn--wrap">
-        <p-button v-show="currentStep > 0" class="RegistrationCard__form-btn" @click="currentStep = Math.max(0, --currentStep)">
+        <p-button
+          v-show="currentStep > 0"
+          class="RegistrationCard__form-btn"
+          @click="currentStep = Math.max(0, --currentStep)"
+        >
           Назад
         </p-button>
-        <p-button v-show="currentStep < allFormData.length - 1" class="RegistrationCard__form-btn" @click="currentStep = Math.min(allFormData.length - 1, ++currentStep)">
+        <p-button
+          v-show="currentStep < allFormData.length - 1"
+          class="RegistrationCard__form-btn"
+          @click="currentStep = Math.min(allFormData.length - 1, ++currentStep)"
+        >
           Дальше
         </p-button>
-        <p-button v-show="currentStep === allFormData.length - 1" type="submit" class="RegistrationCard__form-btn">
+        <p-button
+          v-show="currentStep === allFormData.length - 1"
+          type="submit"
+          class="RegistrationCard__form-btn"
+        >
           Зарегистрироваться
         </p-button>
       </div>
@@ -152,7 +171,7 @@ const onSubmit = async () => {
     display: flex;
     flex-direction: column;
 
-    >*:not(:first-child) {
+    > *:not(:first-child) {
       margin-top: step(3);
     }
 

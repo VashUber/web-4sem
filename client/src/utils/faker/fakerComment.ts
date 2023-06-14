@@ -10,6 +10,6 @@ export default (): IComments => {
     text: faker.lorem.text(),
     author_data: author,
     author: author.id,
-    id: faker.datatype.number(),
+    id: faker.datatype.number()
   }
 }

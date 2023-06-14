@@ -10,7 +10,7 @@ const props = defineProps({
   },
   id: {
     type: Number,
-    required: true,
+    required: true
   }
 })
 </script>
@@ -23,7 +23,7 @@ const props = defineProps({
         avatar: props.avatar
       }"
     >
-      <img class="ArticleContent__author-img" :src="props.avatar"/>
+      <img class="ArticleContent__author-img" :src="props.avatar" />
     </slot>
     <span class="ArticleContent__author-name">
       <slot

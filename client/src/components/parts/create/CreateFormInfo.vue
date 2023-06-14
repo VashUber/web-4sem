@@ -21,7 +21,7 @@ const props = defineProps({
   },
   file: {
     type: File,
-    default: null,
+    default: null
   }
 })
 
@@ -75,17 +75,11 @@ const file_ = computed({
     <FormFieldWrap id="desc">
       Описание
       <template #content="{ id }">
-        <PTextarea
-          :id="id"
-          v-model="contentText_"
-          style="resize: none;"
-          rows="5"
-        />
+        <PTextarea :id="id" v-model="contentText_" style="resize: none" rows="5" />
       </template>
     </FormFieldWrap>
 
     <CustomInputFile v-model="file_" class="CreateFormInfo__field"> Обложка </CustomInputFile>
-    
   </div>
 </template>
 

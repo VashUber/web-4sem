@@ -12,6 +12,6 @@ export default (): IArticle => {
     content_text: faker.lorem.text(),
     created_ad: '',
     img: faker.image.abstract(),
-    title: faker.lorem.words(3),
+    title: faker.lorem.words(3)
   } as IArticle
 }

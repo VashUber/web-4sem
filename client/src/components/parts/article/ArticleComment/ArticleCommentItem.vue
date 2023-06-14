@@ -16,12 +16,18 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="ArticleCommentItem" :style="{
-    paddingLeft: props.parentComment ? '12px' : ''
-  }">
+  <div
+    class="ArticleCommentItem"
+    :style="{
+      paddingLeft: props.parentComment ? '12px' : ''
+    }"
+  >
     <div class="ArticleCommentItem__author">
-      <author-block :id="props.comment.author" :avatar="props.comment.author_data.avatar"
-        :name="props.comment.author_data.username">
+      <author-block
+        :id="props.comment.author"
+        :avatar="props.comment.author_data.avatar"
+        :name="props.comment.author_data.username"
+      >
         <template v-if="props.parentComment" #default="{ name }">
           {{ name }} ответ {{ props.parentComment.author_data.username }}
         </template>
@@ -30,12 +36,10 @@ const props = defineProps({
     <div class="ArticleCommentItem__comment">
       <div v-text="props.comment.text" />
     </div>
-    <div class="ArticleCommentItem__stats">
-    </div>
+    <div class="ArticleCommentItem__stats"></div>
   </div>
 
-  <div class="ArticleCommentItem__answer">
-  </div>
+  <div class="ArticleCommentItem__answer"></div>
 </template>
 
 <style lang="scss" scoped>
@@ -81,7 +85,6 @@ const props = defineProps({
 
 @media screen and (max-width: 768px) {
   .ArticleCommentItem {
-
     &__comment,
     &__stats {
       margin-top: step(2);

@@ -13,7 +13,6 @@ function createAxiosResponseInterceptor() {
   const interceptor = axios.interceptors.response.use(
     (response) => response,
     (error) => {
-      
       if (error?.response?.status !== 401) {
         return Promise.reject(error)
       }
@@ -29,12 +28,11 @@ function createAxiosResponseInterceptor() {
           await refreshToken()
         } catch (error) {
           logout()
-        }
-        finally {
+        } finally {
           createAxiosResponseInterceptor()
         }
       }
-      return handler() 
+      return handler()
     }
   )
 }
