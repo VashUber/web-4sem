@@ -25,7 +25,7 @@ from comments.views import CommentViewSet
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path, re_path
+from django.urls import include, path
 from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 from rest_framework.schemas import get_schema_view
@@ -47,7 +47,8 @@ router.register(r"comments", CommentViewSet, basename="comments")
 urlpatterns = [
     path("auth", include("rest_framework.urls")),
     path("admin/", admin.site.urls),
-    path("articles/top", TopArticlesView.as_view({"get": "list"}), name="top-articles"),
+    path("articles/top",
+         TopArticlesView.as_view({"get": "list"}), name="top-articles"),
     path(
         "articles/read", ReadArticlesView.as_view({"get": "list"}), name="read-articles"
     ),
@@ -70,7 +71,8 @@ urlpatterns = [
     path("accounts/refresh", TokenRefreshView.as_view(), name="token_refresh"),
     path(
         "api_schema/",
-        get_schema_view(title="API Schema", description="Guide for the REST API"),
+        get_schema_view(title="API Schema",
+                        description="Guide for the REST API"),
         name="api_schema",
     ),
     path(

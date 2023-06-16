@@ -25,6 +25,8 @@ django-rest-swagger==2.2.0
 django-timezone-field==5.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
+flower==1.2.0
+humanize==4.6.0
 idna==3.4
 isort==5.12.0
 itypes==1.2.0
@@ -41,6 +43,7 @@ packaging==23.1
 pathspec==0.11.1
 Pillow==9.5.0
 platformdirs==3.5.3
+prometheus-client==0.17.0
 prompt-toolkit==3.0.38
 protobuf==4.21.12
 psycopg2-binary==2.9.6
@@ -53,11 +56,13 @@ python-crontab==2.7.1
 python-dateutil==2.8.2
 pytz==2023.3
 PyYAML==6.0
+redis==4.5.5
 requests==2.31.0
 simplejson==3.19.1
 six==1.16.0
 sqlparse==0.4.4
 tomlkit==0.11.8
+tornado==6.3.2
 tzdata==2023.3
 uritemplate==4.1.1
 urllib3==2.0.3
