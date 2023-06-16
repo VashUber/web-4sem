@@ -8,12 +8,17 @@ from .models import MyUser
 
 
 class UserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label="Password confirmation", widget=forms.PasswordInput
+    )
 
     class Meta:
         model = MyUser
-        fields = ('email', 'name', )
+        fields = (
+            "email",
+            "name",
+        )
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -37,7 +42,13 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = MyUser
-        fields = ('email', 'password', 'name', 'is_active', 'is_admin', )
+        fields = (
+            "email",
+            "password",
+            "name",
+            "is_active",
+            "is_admin",
+        )
 
     def clean_password(self):
         return self.initial["password"]
@@ -47,20 +58,41 @@ class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ('email', 'name', 'is_admin', )
-    list_filter = ('is_admin', )
+    list_display = (
+        "email",
+        "name",
+        "is_admin",
+    )
+    list_filter = ("is_admin",)
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'name', )}),
-        ('Permissions', {'fields': ('is_admin',)}),
+        (
+            None,
+            {
+                "fields": (
+                    "email",
+                    "password",
+                    "name",
+                )
+            },
+        ),
+        ("Permissions", {"fields": ("is_admin",)}),
     )
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'name', 'password1', 'password2', ),
-        }),
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "email",
+                    "name",
+                    "password1",
+                    "password2",
+                ),
+            },
+        ),
     )
-    search_fields = ('email',)
-    ordering = ('email',)
+    search_fields = ("email",)
+    ordering = ("email",)
     filter_horizontal = ()
 
 

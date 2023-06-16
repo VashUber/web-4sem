@@ -4,19 +4,18 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0002_alter_article_author'),
+        ("api", "0002_alter_article_author"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='article',
-            name='img2',
+            model_name="article",
+            name="img2",
         ),
         migrations.AlterField(
-            model_name='article',
-            name='img',
-            field=models.TextField(default=''),
+            model_name="article",
+            name="img",
+            field=models.TextField(default=""),
         ),
     ]

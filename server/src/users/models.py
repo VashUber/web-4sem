@@ -47,7 +47,9 @@ class MyUser(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
-    avatar = models.ImageField(upload_to="avatar", blank=True, null=True, default="avatar/no_avatar.jpg")
+    avatar = models.ImageField(
+        upload_to="avatar", blank=True, null=True, default="avatar/no_avatar.jpg"
+    )
     expiry_date = models.DateTimeField(null=True, blank=True)
     objects = MyUserManager()
 

@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_celery_beat",
     "rest_framework_swagger",
-    "oauth2_provider"
+    "oauth2_provider",
 ]
 
 
@@ -69,8 +69,8 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ],
 }
 

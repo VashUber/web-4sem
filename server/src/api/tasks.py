@@ -15,7 +15,13 @@ def SendNewArticleToAdmin():
     for user in users:
         content += f"{str(user.title)}\n"
 
-    send_mail(subject="Посты", message=content, from_email=None, recipient_list=["admin@test.com"])
+    send_mail(
+        subject="Посты",
+        message=content,
+        from_email=None,
+        recipient_list=["admin@test.com"],
+    )
+
 
 @shared_task
 def CountsReads():
@@ -31,6 +37,11 @@ def CountsReads():
 
     for key, value in counts.items():
         content = f"Статистика просмотров ваших постов: {str(value)}"
-        send_mail(subject="Статистика просмотров", message=content, from_email=None, recipient_list=[key])
+        send_mail(
+            subject="Статистика просмотров",
+            message=content,
+            from_email=None,
+            recipient_list=[key],
+        )
 
     return counts

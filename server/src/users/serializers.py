@@ -12,7 +12,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
         extra_kwargs = {"password": {"write_only": True}}
 
     def save(self):
-        user = MyUser(email=self.validated_data["email"], name=self.validated_data["name"], avatar=self.validated_data["avatar"])
+        user = MyUser(
+            email=self.validated_data["email"],
+            name=self.validated_data["name"],
+            avatar=self.validated_data["avatar"],
+        )
         password = self.validated_data["password"]
         password2 = self.validated_data["password2"]
         if password != password2:
@@ -23,8 +27,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 
 class PasswordChangeSerializer(serializers.Serializer):
-    current_password = serializers.CharField(style={"input_type": "password"}, required=True)
-    new_password = serializers.CharField(style={"input_type": "password"}, required=True)
+    current_password = serializers.CharField(
+        style={"input_type": "password"}, required=True
+    )
+    new_password = serializers.CharField(
+        style={"input_type": "password"}, required=True
+    )
 
     def validate_current_password(self, value):
         if not self.context["request"].user.check_password(value):
