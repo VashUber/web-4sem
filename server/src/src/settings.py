@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_celery_beat",
     "rest_framework_swagger",
+    "oauth2_provider"
 ]
 
 
