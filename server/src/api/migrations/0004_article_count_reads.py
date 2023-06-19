@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0003_remove_article_img2_alter_article_img'),
+        ("api", "0003_remove_article_img2_alter_article_img"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='article',
-            name='count_reads',
+            model_name="article",
+            name="count_reads",
             field=models.IntegerField(default=0),
         ),
     ]

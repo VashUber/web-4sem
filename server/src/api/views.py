@@ -18,12 +18,16 @@ class StandardResultsSetPagination(CustomPagination):
     page_size_query_param = "page_size"
     max_page_size = 100
 
+
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all().order_by("-id")
     serializer_class = ArticleSerializer
     pagination_class = StandardResultsSetPagination
-    authentication_classes = (JWTAuthentication, )
-    permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly, )
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (
+        IsOwnerOrReadOnly,
+        IsAuthenticatedOrReadOnly,
+    )
 
     def retrieve(self, request, pk):
         article = self.queryset.get(pk=pk)
@@ -56,6 +60,7 @@ class UserArticleView(mixins.ListModelMixin, GenericViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
 
 class TopArticlesView(mixins.ListModelMixin, GenericViewSet):
     queryset = Article.objects.all()

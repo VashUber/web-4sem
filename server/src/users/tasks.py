@@ -8,7 +8,12 @@ from .models import MyUser
 
 @shared_task
 def sendEmailVerification(data):
-    send_mail(subject="Верификация", from_email=None, message=data["body"], recipient_list=data["email_to"])
+    send_mail(
+        subject="Верификация",
+        from_email=None,
+        message=data["body"],
+        recipient_list=data["email_to"],
+    )
 
 
 @shared_task
@@ -20,4 +25,9 @@ def SendRegisterUserToAdmin():
     for user in users:
         content += f"id: {str(user.id)}, email: {str(user.email)}\n"
 
-    send_mail(subject="Пользователи", message=content, from_email=None, recipient_list=["admin@test.com"])
+    send_mail(
+        subject="Пользователи",
+        message=content,
+        from_email=None,
+        recipient_list=["admin@test.com"],
+    )

@@ -15,7 +15,13 @@ def SendNewArticleToAdmin():
     for user in users:
         content += f"{str(user.title)}\n"
 
-    send_mail(subject="Посты", message=content, from_email=None, recipient_list=["admin@test.com"])
+    send_mail(
+        subject="Посты",
+        message=content,
+        from_email=None,
+        recipient_list=["admin@test.com"],
+    )
+
 
 @shared_task
 def CountsReads():
