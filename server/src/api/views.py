@@ -12,6 +12,7 @@ from .pagination import CustomPagination
 from .permissions import IsOwnerOrReadOnly
 from .serializers import ArticleSerializer
 
+
 class StandardResultsSetPagination(CustomPagination):
     page_size = 10
     page_size_query_param = "page_size"
@@ -57,7 +58,6 @@ class UserArticleView(mixins.ListModelMixin, GenericViewSet):
         return Response(serializer.data)
 
 class TopArticlesView(mixins.ListModelMixin, GenericViewSet):
-    authentication_classes = ()
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
@@ -68,7 +68,6 @@ class TopArticlesView(mixins.ListModelMixin, GenericViewSet):
 
 
 class ReadArticlesView(mixins.ListModelMixin, GenericViewSet):
-    authentication_classes = ()
     serializer_class = ArticleSerializer
 
     def list(self, request):
@@ -79,7 +78,6 @@ class ReadArticlesView(mixins.ListModelMixin, GenericViewSet):
 
 class CountUserArticleView(mixins.ListModelMixin, GenericViewSet):
     permission_classes = (AllowAny,)
-    authentication_classes = ()
     serializer_class = ArticleSerializer
 
     def list(self, request, pk):

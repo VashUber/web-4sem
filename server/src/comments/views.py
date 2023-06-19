@@ -2,6 +2,7 @@ from api.permissions import IsOwnerOrReadOnly
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Comment
 from .serializers import CommentSerializer
@@ -12,7 +13,8 @@ from .tasks import SendCommentOnArticle
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
+    authentication_classes = (JWTAuthentication, )
+    permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
