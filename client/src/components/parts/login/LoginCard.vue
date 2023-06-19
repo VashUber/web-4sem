@@ -3,7 +3,7 @@ import { PButton } from '@/uiComponents'
 import CustomInput from '@/components/ui/CustomInput.vue'
 import { ref } from 'vue'
 import { login } from '@/utils/api/Auth'
-
+import AuthViaServices from '@/components/ui/AuthViaServices.vue'
 const form = ref({
   email: '',
   password: ''
@@ -24,11 +24,11 @@ const onLogin = async () => {
       <a href="#" class="LoginCard__form-btn">
         <p-button>
           Войти через
-          <i class="pi pi-google" style="font-size: 20px"></i>
+          <i class="pi pi-github" style="font-size: 20px"></i>
         </p-button>
       </a>
     </form>
-    <!-- <auth-via-services class="LoginCard__services" /> -->
+    <auth-via-services class="LoginCard__services" />
   </div>
 </template>
 
