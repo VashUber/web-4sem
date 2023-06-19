@@ -2,9 +2,9 @@
 import CustomInput from '@/components/ui/CustomInput.vue'
 import CustomInputFile from '@/components/ui/CustomInputFile.vue'
 import { PButton } from '@/uiComponents'
+import type { IFormRegistration } from '@/utils/api/Auth'
 import { registration } from '@/utils/api/Auth'
 import { computed, ref } from 'vue'
-import type { IFormRegistration } from '@/utils/api/Auth'
 
 export interface IRows {
   label: string
@@ -70,12 +70,18 @@ const allFormData = [
     {
       component: CustomInput,
       label: 'Пароль',
-      value: 'password'
+      value: 'password',
+      props: {
+        type: 'password'
+      }
     },
     {
       component: CustomInput,
       label: 'Пароль ещё раз',
-      value: 'password_confirm'
+      value: 'password_confirm',
+      props: {
+        type: 'password'
+      }
     }
   ]
 ] as IRows[][]

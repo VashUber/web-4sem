@@ -77,6 +77,9 @@ services:
     env_file:
       - ./server/.env
 
+    volumes:
+      - media:/app/src/media
+
     command:
       bash -c "python ./src/manage.py migrate && python ./src/manage.py
       runserver 0.0.0.0:8000"
@@ -133,3 +136,4 @@ services:
 
 volumes:
   db-postgresql:
+  media: {}

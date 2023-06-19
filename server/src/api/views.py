@@ -63,7 +63,6 @@ class UserArticleView(mixins.ListModelMixin, GenericViewSet):
 
 
 class TopArticlesView(mixins.ListModelMixin, GenericViewSet):
-    authentication_classes = ()
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
@@ -74,7 +73,6 @@ class TopArticlesView(mixins.ListModelMixin, GenericViewSet):
 
 
 class ReadArticlesView(mixins.ListModelMixin, GenericViewSet):
-    authentication_classes = ()
     serializer_class = ArticleSerializer
 
     def list(self, request):
@@ -85,7 +83,6 @@ class ReadArticlesView(mixins.ListModelMixin, GenericViewSet):
 
 class CountUserArticleView(mixins.ListModelMixin, GenericViewSet):
     permission_classes = (AllowAny,)
-    authentication_classes = ()
     serializer_class = ArticleSerializer
 
     def list(self, request, pk):

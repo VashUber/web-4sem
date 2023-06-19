@@ -170,7 +170,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = os.getenv("EMAIL_HOST", "127.0.0.1")
+
+EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp-server")
 EMAIL_PORT = 1025
 
 CELERY_BROKER_URL = "redis://redis:6379"

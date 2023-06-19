@@ -37,11 +37,4 @@ def CountsReads():
 
     for key, value in counts.items():
         content = f"Статистика просмотров ваших постов: {str(value)}"
-        send_mail(
-            subject="Статистика просмотров",
-            message=content,
-            from_email=None,
-            recipient_list=[key],
-        )
-
-    return counts
+        send_mail(subject="Статистика просмотров", message=content, from_email=None, recipient_list=[key])
