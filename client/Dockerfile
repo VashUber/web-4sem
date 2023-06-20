@@ -1,11 +1,11 @@
-FROM node:16.20
+FROM node:16.20-alpine
 
 EXPOSE 3000
 
 WORKDIR /app
-COPY . .
-
+COPY package*.json .
 RUN npm install
+COPY . .
 RUN npm run build
 
 CMD [ "npm", "rum", "preview" ]

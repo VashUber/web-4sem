@@ -69,9 +69,6 @@ CACHES = {
     }
 }
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
-
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
