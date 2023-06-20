@@ -57,8 +57,20 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_celery_beat",
     "rest_framework_swagger",
-    "oauth2_provider",
 ]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 
 
 REST_FRAMEWORK = {

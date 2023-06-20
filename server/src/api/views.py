@@ -1,11 +1,15 @@
-from comments.models import Comment
-from comments.serializers import CommentSerializer
+from django.core.cache import cache
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
+
+from comments.serializers import CommentSerializer
+from comments.models import Comment
+
+from settings.cache import CACHE_TTL
 
 from .models import Article
 from .pagination import CustomPagination
@@ -38,10 +42,17 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"])
     def comments(self, request, pk=None, *args, **kwargs):
-        comments = list(Comment.objects.filter(article=pk).order_by("-created_at"))
-        answers = CommentSerializer(comments, context={"request": request}, many=True)
+        if f"comment-{pk}" in cache:
+            response = cache.get(f"comment-{pk}")
+        else:
+            comments = Comment.objects.filter(article=pk).order_by("-created_at")
+            answers = CommentSerializer(
+                comments, context={"request": request}, many=True
+            )
+            response = answers.data
+            cache.set(f"comment-{pk}", response, timeout=CACHE_TTL)
 
-        return Response(answers.data)
+        return Response(response)
 
 
 class UserArticleView(mixins.ListModelMixin, GenericViewSet):
