@@ -1,8 +1,4 @@
-from comments.models import Comment
-from comments.serializers import CommentSerializer
 from django.core.cache import cache
-from django.conf import settings
-from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
@@ -10,13 +6,15 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
+from comments.serializers import CommentSerializer
+from comments.models import Comment
+
+from settings.cache import CACHE_TTL
+
 from .models import Article
 from .pagination import CustomPagination
 from .permissions import IsOwnerOrReadOnly
 from .serializers import ArticleSerializer
-
-
-CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
 
 
 class StandardResultsSetPagination(CustomPagination):
