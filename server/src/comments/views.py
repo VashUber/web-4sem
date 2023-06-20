@@ -1,4 +1,5 @@
 from api.permissions import IsOwnerOrReadOnly
+from django.core.cache import cache
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -13,7 +14,7 @@ from .tasks import SendCommentOnArticle
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    authentication_classes = (JWTAuthentication, )
+    authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
     def create(self, request, *args, **kwargs):
@@ -22,6 +23,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         SendCommentOnArticle.delay(serializer.data)
+
+        cache.delete(f"comment-{request.data.get('article')}")
+
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )

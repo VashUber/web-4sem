@@ -1,5 +1,8 @@
 from comments.models import Comment
 from comments.serializers import CommentSerializer
+from django.core.cache import cache
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
@@ -11,6 +14,9 @@ from .models import Article
 from .pagination import CustomPagination
 from .permissions import IsOwnerOrReadOnly
 from .serializers import ArticleSerializer
+
+
+CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
 
 
 class StandardResultsSetPagination(CustomPagination):
@@ -38,10 +44,17 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"])
     def comments(self, request, pk=None, *args, **kwargs):
-        comments = list(Comment.objects.filter(article=pk).order_by("-created_at"))
-        answers = CommentSerializer(comments, context={"request": request}, many=True)
+        if f"comment-{pk}" in cache:
+            response = cache.get(f"comment-{pk}")
+        else:
+            comments = Comment.objects.filter(article=pk).order_by("-created_at")
+            answers = CommentSerializer(
+                comments, context={"request": request}, many=True
+            )
+            response = answers.data
+            cache.set(f"comment-{pk}", response, timeout=CACHE_TTL)
 
-        return Response(answers.data)
+        return Response(response)
 
 
 class UserArticleView(mixins.ListModelMixin, GenericViewSet):
