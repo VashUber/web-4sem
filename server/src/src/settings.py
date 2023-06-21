@@ -66,6 +66,16 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist'
 ]
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -165,7 +175,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-USE_L10N = True
+# USE_L10N = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -183,7 +193,7 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp-server")
 EMAIL_PORT = 1025
 
-CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_BROKER_URL = "redis://localhost:6379"
 
 CELERY_BEAT_SCHEDULE = {
     "SendRegisterUserToAdmin": {

@@ -68,8 +68,7 @@ urlpatterns = [
     path("accounts/register", RegistrationView.as_view(), name="register"),
     path(
         "api_schema/",
-        get_schema_view(title="API Schema",
-                        description="Guide for the REST API"),
+        get_schema_view(title="API Schema", description="Guide for the REST API"),
         name="api_schema",
     ),
     path(

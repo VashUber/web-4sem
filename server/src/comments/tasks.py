@@ -13,6 +13,13 @@ def SendCommentOnArticle(data):
     content = f'На ваш пост "{article.title}" написан новый комментарий. \n'
     content += f"Почта автора: {author_comment.email} \n"
     content += f"Комментарий: {data['text']} \n"
-    date_format = parser.isoparser().isoparse(data["created_at"]).strftime("%d.%m.%Y %H:%M:%S")
+    date_format = (
+        parser.isoparser().isoparse(data["created_at"]).strftime("%d.%m.%Y %H:%M:%S")
+    )
     content += f"Дата создания: {date_format} \n"
-    send_mail(subject="Новый комментарий", message=content, from_email=None, recipient_list=[article.author.email])
+    send_mail(
+        subject="Новый комментарий",
+        message=content,
+        from_email=None,
+        recipient_list=[article.author.email],
+    )
