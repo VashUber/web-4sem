@@ -2,7 +2,7 @@ import { setUser, user } from '@/composable/fetchUser'
 import type { IToken } from '@/models/Token'
 import type { IUser } from '@/models/User'
 import type { AxiosResponse } from 'axios'
-import axios from './axios'
+import axios, { regAccessToken, regSessionId } from './axios'
 
 const reg = /(?<=\baccess=).*?(?=(;|$))/gi
 
@@ -27,8 +27,9 @@ interface IFormRegistrationRequest {
 const registration = async (form: IFormRegistration) => {
   const formData = new FormData()
   formData.append('email', form.email)
-  formData.append('name', form.name)
+  formData.append('username', form.name)
   formData.append('password', form.password)
+  formData.append('re_password', form.password_confirm)
   formData.append('password2', form.password_confirm)
   if (form.avatar) {
     formData.append('avatar', form.avatar)
@@ -49,7 +50,7 @@ const registration = async (form: IFormRegistration) => {
 const login = async (email: string, password: string) => {
   await axios({
     method: 'POST',
-    url: import.meta.env.VITE_BASE_URL + '/accounts/login',
+    url: import.meta.env.VITE_BASE_URL + '/djoser/jwt/create/',
     data: {
       email,
       password
@@ -63,26 +64,19 @@ const login = async (email: string, password: string) => {
 }
 
 const fetchUser = async () => {
-  const tokenRefresh = localStorage.getItem('refresh')
-
-  if (!tokenRefresh) {
-    logout()
-    return
-  }
-
-  // try {
-  await refreshToken()
-  // } catch (error) {
-  //   return
-  // }
+  const accessToken = localStorage.getItem('access')
 
   try {
+    const headers = {} as Record<string, string>
+
+    if (accessToken) {
+      headers.Authorization = 'JWT ' + accessToken
+    }
+    
     return await axios({
       method: 'GET',
-      url: import.meta.env.VITE_BASE_URL + '/accounts/current',
-      headers: {
-        Authorization: 'Bearer ' + document.cookie.match(reg)?.[0]
-      }
+      url: import.meta.env.VITE_BASE_URL + '/djoser/users/me/',
+      headers
     })
       .then(({ data }) => {
         setUser(data)
@@ -100,8 +94,8 @@ const redirectProfile = () => {
 }
 
 const setTokens = (data: IToken) => {
-  document.cookie = `access=${data.access}`
   localStorage.setItem('refresh', data.refresh)
+  localStorage.setItem('access', data.access)
 }
 
 const refreshToken = async () => {
@@ -112,7 +106,7 @@ const refreshToken = async () => {
   return new Promise((resolve, reject) => {
     axios({
       method: 'POST',
-      url: import.meta.env.VITE_BASE_URL + '/accounts/refresh',
+      url: import.meta.env.VITE_BASE_URL + '/djoser/jwt/refresh/',
       data: {
         refresh: localStorage.getItem('refresh')
       }
@@ -128,18 +122,10 @@ const refreshToken = async () => {
   })
 }
 
-const logout = () => {
-  axios({
-    method: 'POST',
-    url: import.meta.env.VITE_BASE_URL + '/accounts/logout',
-    data: {
-      refresh: localStorage.getItem('refresh')
-    }
-  }).then(() => {
-    document.cookie = 'access='
-    localStorage.removeItem('refresh')
-    setUser(undefined)
-  })
+const logout = () => { 
+  localStorage.removeItem('refresh')
+  localStorage.removeItem('access')
+  setUser(undefined)
 }
 
-export { login, fetchUser, refreshToken, logout, registration }
+export { login, fetchUser, refreshToken, logout, registration, setTokens }

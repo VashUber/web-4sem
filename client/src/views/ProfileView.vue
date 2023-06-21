@@ -6,6 +6,7 @@ import ProfileStats from '@/components/parts/profile/ProfileStats.vue'
 import ProfileTabs from '@/components/parts/profile/ProfileTabs.vue'
 import { user } from '@/composable/fetchUser'
 import type { IArticle } from '@/models/Articles'
+import type { IUser } from '@/models/User'
 import Api from '@/utils/api/Api'
 import _ from 'lodash'
 import { computed, onMounted, ref } from 'vue'
@@ -14,7 +15,7 @@ import { useRoute, useRouter } from 'vue-router'
 const $route = useRoute()
 const $router = useRouter()
 
-const userData = ref()
+const userData = ref<IUser>()
 const count = ref(0)
 const isMyProfile = computed(() => {
   return user.value?.id === +$route.params.id
@@ -26,8 +27,8 @@ const articlesPage = ref(1)
 const currentTab = ref('article')
 
 onMounted(async () => {
-  if (isMyProfile.value) {
-    userData.value = _.cloneDeep(user.value)
+  if (isMyProfile.value && user.value) {
+    userData.value = _.cloneDeep<IUser>(user.value)
   } else {
     await Api.fetchUser(+$route.params.id).then((res) => {
       userData.value = res
@@ -58,7 +59,7 @@ const redirectOnCreate = () => {
   <div v-if="userData">
     <div class="main__content ProfileView__content">
       <div class="ProfileView__content-right">
-        <profile-card :name="userData.name" :avatar="userData.avatar" />
+        <profile-card :name="userData.username" :avatar="userData.avatar" />
         <profile-stats
           class="ProfileView__stats"
           :count-articles="'0'"

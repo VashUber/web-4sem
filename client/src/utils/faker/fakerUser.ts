@@ -5,7 +5,7 @@ export default (): IUser => ({
   created_ad: '',
   is_active: false,
   is_admin: false,
-  name: faker.name.firstName(),
+  username: faker.name.firstName(),
   last_login: '',
   email: faker.internet.email(),
   id: faker.datatype.number(),
