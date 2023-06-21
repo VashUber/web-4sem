@@ -1,12 +1,26 @@
 import $axios from 'axios'
 import { logout, refreshToken } from './Auth'
 export const regAccessToken = /(?<=\baccess=).*?(?=(;|$))/gi
+export const regCSRF = /(?<=\bcsrftoken=).*?(?=(;|$))/gi
+export const regSessionId = /(?<=\bsessionid=).*?(?=(;|$))/gi
+
+const accessToken = localStorage.getItem('access')
+const CSRF = document.cookie.match(regCSRF)?.[0]
+
+const headers = {} as Record<string, string>
+
+if (accessToken) {
+  headers.Authorization = 'JWT ' + accessToken
+}
+
+if (CSRF) {
+  headers['X-CSRFToken'] = CSRF
+}
 
 const axios = $axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
-  headers: {
-    Authorization: 'Bearer ' + document.cookie.match(regAccessToken)?.[0]
-  }
+  withCredentials: true,
+  headers,
 })
 
 function createAxiosResponseInterceptor() {
@@ -17,7 +31,7 @@ function createAxiosResponseInterceptor() {
         return Promise.reject(error)
       }
 
-      if (error.request.responseURL === import.meta.env.VITE_BASE_URL + '/auth/jwt/refresh/') {
+      if (error.request.responseURL === import.meta.env.VITE_BASE_URL + '/djoser/jwt/refresh/') {
         return Promise.reject(error)
       }
 

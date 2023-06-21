@@ -29,12 +29,9 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 from rest_framework.schemas import get_schema_view
-from rest_framework_simplejwt.views import TokenRefreshView
 from users.views import (
     CurrentUserView,
     EmailVerifyView,
-    LoginView,
-    LogoutView,
     RegistrationView,
     UserView,
 )
@@ -47,6 +44,9 @@ router.register(r"comments", CommentViewSet, basename="comments")
 urlpatterns = [
     path("auth", include("rest_framework.urls")),
     path("admin/", admin.site.urls),
+    path('djoser/', include('djoser.urls')),
+    path('djoser/', include('djoser.urls.jwt')),
+    path('djoser/', include('djoser.social.urls')),
     path("articles/top",
          TopArticlesView.as_view({"get": "list"}), name="top-articles"),
     path(
@@ -66,9 +66,6 @@ urlpatterns = [
     ),
     path("accounts/current", CurrentUserView.as_view(), name="current"),
     path("accounts/register", RegistrationView.as_view(), name="register"),
-    path("accounts/login", LoginView.as_view(), name="login"),
-    path("accounts/logout", LogoutView.as_view(), name="logout"),
-    path("accounts/refresh", TokenRefreshView.as_view(), name="token_refresh"),
     path(
         "api_schema/",
         get_schema_view(title="API Schema",

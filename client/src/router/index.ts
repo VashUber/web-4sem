@@ -39,6 +39,15 @@ const router = createRouter({
       }
     },
     {
+      path: '/github',
+      name: 'github',
+      component: () => import('../views/GitHubView.vue'),
+      meta: {
+        layout: 'Empty',
+        auth: false
+      }
+    },
+    {
       path: '/profile/:id',
       name: 'profile',
       component: () => import('../views/ProfileView.vue'),

@@ -8,14 +8,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MyUser
-        fields = ["email", "name", "password", "password2", "id", "avatar"]
+        fields = ["email", "username", "password", "password2", "id", "avatar"]
         extra_kwargs = {"password": {"write_only": True}}
 
     def save(self):
         user = MyUser(
             email=self.validated_data["email"],
-            name=self.validated_data["name"],
-            avatar=self.validated_data["avatar"],
+            username=self.validated_data["username"],
+            avatar=self.validated_data["avatar"] or None,
         )
         password = self.validated_data["password"]
         password2 = self.validated_data["password2"]
@@ -45,7 +45,7 @@ class UserListSerializer(serializers.ModelSerializer):
         model = MyUser
         fields = (
             "id",
-            "name",
+            "username",
             "email",
             "last_login",
             "is_admin",
@@ -53,3 +53,14 @@ class UserListSerializer(serializers.ModelSerializer):
             "created_ad",
             "avatar",
         )
+
+# from djoser.serializers import UserCreateSerializer
+# from django.contrib.auth import get_user_model
+
+# User = get_user_model()
+
+
+# class UserCreateSerializer(UserCreateSerializer):
+#     class Meta(UserCreateSerializer.Meta):
+#         model = User
+#         fields = ("id", "email", "username", "first_name", "last_name", "password")

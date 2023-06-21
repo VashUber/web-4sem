@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { user } from '@/composable/fetchUser'
 import { PButton } from '@/uiComponents'
 
 interface ITab {
   title: string
   value: string
+  show?: boolean
 }
 
 const props = defineProps({
@@ -22,9 +24,10 @@ const tabs: ITab[] = [
   },
   {
     title: 'Написать пост',
-    value: 'created'
-  }
-]
+    value: 'created',
+    show: !user.value?.id,
+  } 
+].filter((el) => !el.show)
 
 const clickTab = (tab: ITab) => {
   if (tab.value === 'created') {

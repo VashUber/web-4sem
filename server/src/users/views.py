@@ -50,7 +50,7 @@ class RegistrationView(APIView):
             )
             email_body = (
                 "Hi "
-                + user_serializer["name"]
+                + user_serializer["username"]
                 + " Use the link below to verify your email \n"
                 + absurl
             )

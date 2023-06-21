@@ -5,7 +5,7 @@ from .models import Article
 
 
 class UserViewSerializer(serializers.Serializer):
-    username = serializers.CharField(source="author.name")
+    username = serializers.CharField(source="author.username")
     id = serializers.IntegerField(source="author.id")
     email = serializers.EmailField(source="author.email")
     avatar = serializers.ImageField(source="author.avatar")

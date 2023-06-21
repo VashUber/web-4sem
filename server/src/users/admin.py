@@ -17,7 +17,7 @@ class UserCreationForm(forms.ModelForm):
         model = MyUser
         fields = (
             "email",
-            "name",
+            "username",
         )
 
     def clean_password2(self):
@@ -45,7 +45,7 @@ class UserChangeForm(forms.ModelForm):
         fields = (
             "email",
             "password",
-            "name",
+            "username",
             "is_active",
             "is_admin",
         )
@@ -60,7 +60,7 @@ class UserAdmin(BaseUserAdmin):
 
     list_display = (
         "email",
-        "name",
+        "username",
         "is_admin",
     )
     list_filter = ("is_admin",)
@@ -71,7 +71,7 @@ class UserAdmin(BaseUserAdmin):
                 "fields": (
                     "email",
                     "password",
-                    "name",
+                    "username",
                 )
             },
         ),
@@ -84,7 +84,7 @@ class UserAdmin(BaseUserAdmin):
                 "classes": ("wide",),
                 "fields": (
                     "email",
-                    "name",
+                    "username",
                     "password1",
                     "password2",
                 ),

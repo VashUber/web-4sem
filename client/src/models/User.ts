@@ -1,6 +1,6 @@
 export interface IUser {
   id: number
-  name: string
+  username: string
   email: string
   last_login?: any
   is_admin: boolean

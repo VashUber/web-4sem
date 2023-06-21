@@ -11,7 +11,7 @@ import fakerBlogList from '../faker/fakerBlogList'
 import fakerComment from '../faker/fakerComment'
 import fakerComments from '../faker/fakerCommetsList'
 import fakerUser from '../faker/fakerUser'
-import axios, { regAccessToken } from './axios'
+import axios, { regAccessToken, regCSRF } from './axios'
 
 enum AxiosMethodsEnum {
   POST = 'POST',
@@ -143,13 +143,28 @@ abstract class Api {
     headers?: Record<string, string>
   ): Promise<T> {
     return new Promise((resolve, reject) => {
+      const headersAuth = {
+        "WWW-Authenticate": '',
+      } as Record<string, string>
+
+      const accessToken = localStorage.getItem('access')
+      const CSRF = document.cookie.match(regCSRF)?.[0]
+      
+      if (CSRF) {
+        headersAuth['X-CSRFToken'] = CSRF
+      }
+      
+      if (accessToken) {
+        headersAuth.Authorization = 'JWT ' + localStorage.getItem('access')
+      }
+
       axios({
         method,
         url: endpoint,
         data: args,
         headers: {
           ...headers,
-          Authorization: 'Bearer ' + document.cookie.match(regAccessToken)?.[0]
+          ...headersAuth,
         }
       })
         .then((res: AxiosResponse<T>) => {
