@@ -143,17 +143,15 @@ abstract class Api {
     headers?: Record<string, string>
   ): Promise<T> {
     return new Promise((resolve, reject) => {
-      const headersAuth = {
-        "WWW-Authenticate": '',
-      } as Record<string, string>
+      const headersAuth = {} as Record<string, string>
 
       const accessToken = localStorage.getItem('access')
       const CSRF = document.cookie.match(regCSRF)?.[0]
-      
+
       if (CSRF) {
         headersAuth['X-CSRFToken'] = CSRF
       }
-      
+
       if (accessToken) {
         headersAuth.Authorization = 'JWT ' + localStorage.getItem('access')
       }
@@ -164,7 +162,7 @@ abstract class Api {
         data: args,
         headers: {
           ...headers,
-          ...headersAuth,
+          ...headersAuth
         }
       })
         .then((res: AxiosResponse<T>) => {

@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 api_client = APIClient()
 user_model_register = dict(
     email="test_email@mail.ru",
-    name="test_user",
+    username="test_user",
     avatar="",
     password=123456,
     password2=123456,
