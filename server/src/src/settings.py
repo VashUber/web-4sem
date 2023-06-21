@@ -63,13 +63,16 @@ INSTALLED_APPS = [
     'djoser',
     'social_django',
     'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist'
+    'rest_framework_simplejwt.token_blacklist',
+    'logger',
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://localhost:6379",
+        "LOCATION": "redis://redis:6379",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
@@ -106,6 +109,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "logger.middleware.RequestTimeMiddleware"
 ]
 
 ROOT_URLCONF = "src.urls"
@@ -193,7 +197,7 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp-server")
 EMAIL_PORT = 1025
 
-CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_BROKER_URL = "redis://redis:6379"
 
 CELERY_BEAT_SCHEDULE = {
     "SendRegisterUserToAdmin": {
@@ -206,6 +210,10 @@ CELERY_BEAT_SCHEDULE = {
     },
     "CountsReads": {
         "task": "api.tasks.CountsReads",
+        "schedule": crontab(minute="*/1"),
+    },
+    "Loggers": {
+        "task": "logger.tasks.SaveLogger",
         "schedule": crontab(minute="*/1"),
     },
 }
