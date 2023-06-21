@@ -21,12 +21,6 @@ const onLogin = async () => {
       <custom-input id="email" v-model="form.email"> E-mail </custom-input>
       <custom-input id="password" v-model="form.password" type="password"> Пароль </custom-input>
       <p-button class="LoginCard__form-btn" type="submit" @click="onLogin"> Войти </p-button>
-      <a href="#" class="LoginCard__form-btn">
-        <p-button>
-          Войти через
-          <i class="pi pi-github" style="font-size: 20px"></i>
-        </p-button>
-      </a>
     </form>
     <auth-via-services class="LoginCard__services" />
   </div>
